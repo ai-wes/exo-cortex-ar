@@ -2,7 +2,8 @@ from fastapi import File, UploadFile, HTTPException
 import random
 import base64
 from utils.vectorstore import upsert_image_memory
-from dummy_embedding import dummy_embedding
+def dummy_embedding(text: str, length=8):
+    return [random.random() for _ in range(length)]
 def create_image_memory(file: UploadFile = File(...)):
     """
     Expects a file upload, e.g. from a multipart/form-data request:

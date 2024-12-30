@@ -1,7 +1,8 @@
 from fastapi import Body, HTTPException
 import random
 
-from dummy_embedding import dummy_embedding
+def dummy_embedding(text: str, length=8):
+    return [random.random() for _ in range(length)]
 
 def create_text_memory(payload: dict = Body(...)):
     """

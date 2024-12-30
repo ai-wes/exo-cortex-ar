@@ -2,7 +2,8 @@ from fastapi import Body, HTTPException
 import random
 from utils.vectorstore import upsert_video_memory
 
-from dummy_embedding import dummy_embedding
+def dummy_embedding(text: str, length=8):
+    return [random.random() for _ in range(length)]
 
 def create_video_memory(payload: dict = Body(...)):
     """
