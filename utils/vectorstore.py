@@ -25,18 +25,32 @@ except ImportError:
 
     vector_store = InMemoryVectorStore()
 
-def upsert_text_memory(text_content: str, embedding: list[float]):
-    """Upsert text memory into the vector store."""
+def upsert_text_memory(content: str, embedding: list[float], metadata: dict = None):
+    """
+    Upsert text memory into the vector store.
+    
+    Args:
+        content: The text content to store
+        embedding: Vector embedding of the content
+        metadata: Additional metadata like title, tags, timestamp
+    """
     doc_id = str(uuid4())
+    
+    # Combine base metadata with additional metadata
+    base_metadata = {
+        "type": "text",
+        "content": content
+    }
+    if metadata:
+        base_metadata.update(metadata)
+    
     doc = {
         "id": doc_id,
         "embedding": embedding,
-        "metadata": {
-            "type": "text",
-            "content": text_content
-        }
+        "metadata": base_metadata
     }
     vector_store.upsert([doc])
+    return doc_id
 
 def upsert_video_memory(video_info: dict, embedding: list[float]):
     """Upsert video memory (base64/URL) + embedding."""
